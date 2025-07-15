@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "errorhandler": "^1.5.1",
     "express": "^5.1.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.3",
