@@ -18,5 +18,5 @@ exports.deleteTweet = (id) => {
 }
 
 exports.updateTweet = (id, tweet) => {
-    return Tweet.findByIdAndUpdate(id, {$set: tweet});
+    return Tweet.findByIdAndUpdate(id, { $set: tweet }, { runValidators: true });
 }
