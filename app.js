@@ -8,11 +8,11 @@ const app = express();
 exports.app = app;
 const port = process.env.PORT || 3000;
 
-require('./config/session.config');
-require('./config/passport.config');
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+require('./config/session.config');
+require('./config/passport.config');
 
 // Apply middleware
 app.use(morgan('short'));
