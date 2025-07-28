@@ -3,63 +3,54 @@ const { createTweet, deleteTweet, getTweet, updateTweet, getCurrentUserTweetsWit
 exports.tweetList = async (req, res, next) => {
   try {
     const tweets = await getCurrentUserTweetsWithFollowing(req.user);
-    res.render('tweets/tweet', {
-      tweets,
-      isAuthenticated: req.isAuthenticated(),
-      currentUser: req.user,
-      user: req.user,
-      editable: true
-    });
+    res.json(tweets);
   } catch(e) {
     next(e);
   }
 }
 
-exports.tweetNew = (req, res, next) => {
-  res.render('tweets/tweet-form', { tweet: {}, isAuthenticated: req.isAuthenticated(), currentUser: req.user });
-}
-
 exports.tweetCreate = async (req, res, next) => {
   try {
     const body = req.body;
-    await createTweet({...body, author: req.user._id });
-    res.redirect('/tweets');
+    const tweet = await createTweet({...body, author: req.user._id });
+    res.status(201).json(tweet);
   } catch(e) {
     const errors = Object.keys(e.errors).map( key => e.errors[key].message );
-    res.status(400).render('tweets/tweet-form', { errors, isAuthenticated: req.isAuthenticated(), currentUser: req.user });
+    res.status(400).json({ errors });
   }
 }
 
 exports.tweetDelete = async (req, res, next) => {
   try {
     const tweetId = req.params.tweetId;
-    await deleteTweet(tweetId);
-    const tweets = await getCurrentUserTweetsWithFollowing(req.user);
-    res.render('tweets/tweet-list', { tweets, currentUser: req.user, editable: true });
+    const deletedTweet = await deleteTweet(tweetId);
+    res.status(203).json({ message: 'Tweet deleted successfully', tweet: deletedTweet });
   } catch(e) {
     next(e);
   }
 }
 
-exports.tweetEdit = async (req, res, next) => {
+exports.getTweet = async (req, res, next) => {
   try {
     const tweetId = req.params.tweetId;
     const tweet = await getTweet(tweetId);
-    res.render('tweets/tweet-form', { tweet, isAuthenticated: req.isAuthenticated(), currentUser: req.user });
+    if (!tweet) {
+      return res.status(404).json({ error: 'Tweet not found' });
+    }
+    res.json(tweet);
   } catch(e) {
     next(e);
   }
 }
 
 exports.tweetUpdate = async (req, res, next) => {
-  const tweetId = req.params.tweetId;
   try {
+    const tweetId = req.params.tweetId;
     const body = req.body;
-    await updateTweet(tweetId, body);
-    res.redirect('/tweets');
+    const updatedTweet = await updateTweet(tweetId, body);
+    res.json(updatedTweet);
   } catch(e) {
     const errors = Object.keys(e.errors).map( key => e.errors[key].message );
-    const tweet = await getTweet(tweetId);
-    res.status(400).render('tweets/tweet-form', { errors, tweet, isAuthenticated: req.isAuthenticated(), currentUser: req.user });
+    res.status(400).json({ errors });
   }
 }

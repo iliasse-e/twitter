@@ -27,3 +27,9 @@ Deux versions existent.
 npm install
 npm start
 ```
+
+## Documentation API
+
+La documentation Swagger est disponible sur `/api-docs` (branche master).
+
+---
