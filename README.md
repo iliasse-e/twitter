@@ -24,6 +24,7 @@ Deux versions existent.
 ## Démarrage
 
 ```bash
+git clone https://github.com/iliasse-e/twitter.git
 npm install
 npm start
 ```
