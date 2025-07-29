@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const index = require('./api');
+const cors = require('cors')
 const { swaggerUi, specs } = require('./documentation/swagger');
 require('./database');
 
@@ -23,6 +24,7 @@ app.use(morgan('short'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 // Define routes
 app.use(index)
