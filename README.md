@@ -11,7 +11,9 @@ Deux versions existent.
   
 - **api**  
   Cette branche implémente un serveur Express qui expose une API REST. Toutes les fonctionnalités (tweets, utilisateurs, authentification) sont accessibles via des endpoints API qui renvoient des réponses JSON.  
-  Elle est adaptée pour être utilisée avec un front-end séparé (React, Vue, etc.) ou pour des intégrations externes.
+  Elle est adaptée pour être utilisée avec un front-end séparé, se trouvant dans le dépôt suivant :
+  
+  https://github.com/iliasse-e/twitter-frontend
 
 ## Fonctionnalités principales
 
@@ -24,6 +26,7 @@ Deux versions existent.
 ## Démarrage
 
 ```bash
+git clone https://github.com/iliasse-e/twitter.git
 npm install
 npm start
 ```
