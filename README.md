@@ -1,19 +1,9 @@
 # Twitter NodeJS
 
-Ce projet est une application Twitter simplifiée développée avec Node.js, Express et MongoDB.
-Deux versions existent.
-
-## Branches
-
-- **master**  
-  Cette branche propose une version classique avec rendu de vues côté serveur (avec EJS, Pug, etc.). Les routes Express renvoient des pages HTML générées dynamiquement.  
-  Elle est adaptée pour une application monolithique où le front et le back sont réunis.
+Ce projet est une application Twitter simplifiée implémente un serveur Express qui expose une API REST. Toutes les fonctionnalités (tweets, utilisateurs, authentification) sont accessibles via des endpoints API qui renvoient des réponses JSON.  
+Elle est adaptée pour être utilisée avec un front-end séparé, se trouvant dans le dépôt suivant :
   
-- **api**  
-  Cette branche implémente un serveur Express qui expose une API REST. Toutes les fonctionnalités (tweets, utilisateurs, authentification) sont accessibles via des endpoints API qui renvoient des réponses JSON.  
-  Elle est adaptée pour être utilisée avec un front-end séparé, se trouvant dans le dépôt suivant :
-  
-  https://github.com/iliasse-e/twitter-frontend
+https://github.com/iliasse-e/twitter-frontend
 
 ## Fonctionnalités principales
 
