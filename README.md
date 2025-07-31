@@ -30,3 +30,9 @@ git clone https://github.com/iliasse-e/twitter.git
 npm install
 npm start
 ```
+
+## Documentation API
+
+La documentation Swagger est disponible sur `/api-docs` (branche master).
+
+---

@@ -1,21 +1,19 @@
 const passport = require('passport');
 
-exports.signinForm = (req, res, next) => {
-  res.render('auth/auth-form', { errors: null, isAuthenticated: req.isAuthenticated(), currentUser: req.user });
-}
-
 exports.signin = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
-      next(err);
+      return res.status(500).json({ error: err.message });
     } else if (!user) {
-      res.render('auth/auth-form', { errors: [ info.message ], isAuthenticated: req.isAuthenticated(), currentUser: req.user });
+      return res.status(401).json({ errors: [info.message] });
     } else {
       req.login(user, (err) => {
-        if (err) { next(err) } else {
-          res.redirect('/tweets');
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        } else {
+          return res.json({ message: 'Authenticated', user });
         }
-      })
+      });
     }
   })(req, res, next);
 }
@@ -23,8 +21,8 @@ exports.signin = (req, res, next) => {
 exports.signout = (req, res, next) => {
   req.logout((err) => {
     if (err) {
-      return next(err);
+      return res.status(500).json({ error: err.message });
     }
-    res.redirect('/auth/signin/form');
+    res.json({ message: 'Signed out' });
   });
 }
