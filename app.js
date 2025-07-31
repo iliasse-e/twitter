@@ -10,7 +10,6 @@ const app = express();
 exports.app = app;
 const port = process.env.PORT || 3000;
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -24,7 +23,8 @@ app.use(morgan('short'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:4200', methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'}));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Define routes
 app.use(index)
