@@ -1,4 +1,4 @@
-const { createUser, findUserByUsername, searchUsersByUsername, removeUserIdToCurrentUserFollowing, addUserIdToCurrentUserFollowing, findUserById } = require('../queries/users.queries');
+const { findUserByUsername, searchUsersByUsername, removeUserIdToCurrentUserFollowing, addUserIdToCurrentUserFollowing, findUserById } = require('../queries/users.queries');
 const path = require('path');
 const multer = require('multer');
 const { getUserTweetsFormAuthorId } = require('../queries/tweets.queries');
@@ -10,16 +10,6 @@ const upload = multer({ storage: multer.diskStorage({
     cb(null, `${ Date.now() }-${ file.originalname }`);
   }
 }) })
-
-exports.signup = async (req, res, next) => {
-  const body = req.body;
-  try {
-    const user = await createUser(body);
-    res.json(user);
-  } catch(e) {
-    res.status(400).json({ errors: [ e.message ] });
-  }
-}
 
 exports.uploadImage = [
   upload.single('avatar'),
