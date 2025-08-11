@@ -26,3 +26,6 @@ npm start
 La documentation Swagger est disponible sur `/api-docs` (branche master).
 
 ---
+
+## JWT
+

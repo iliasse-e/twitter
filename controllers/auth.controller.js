@@ -1,28 +1,39 @@
-const passport = require('passport');
+const { findUserByEmail, createUser } = require("../queries/users.queries");
 
-exports.signin = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    } else if (!user) {
-      return res.status(401).json({ errors: [info.message] });
-    } else {
-      req.login(user, (err) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        } else {
-          return res.json({ message: 'Authenticated', user });
-        }
-      });
+exports.signin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await findUserByEmail(email);
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
     }
-  })(req, res, next);
+
+    const match = await user.comparePassword(password);
+
+    if (!match) {
+      return res.status(401).json({ message: 'Wrong user or password' });
+    }
+
+    req.login(user); // Utilise ton propre middleware
+    res.json({ message: 'User connected', user });
+    
+  } catch (error) {
+    next(e);
+  }
+}
+
+exports.signup = async (req, res, next) => {
+  const body = req.body;
+  try {
+    const user = await createUser(body);
+    res.json(user);
+  } catch(e) {
+    res.status(400).json({ errors: [ e.message ] });
+  }
 }
 
 exports.signout = (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json({ message: 'Signed out' });
-  });
+  req.logout();
+  res.json({ message: 'Signed out' });
 }
